@@ -1,5 +1,7 @@
 package com.blackdeath.pagos.entidades;
 
+import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,4 +45,15 @@ public class EstatusPago {
 	 */
 	@Column(name = "descripcion", length = 128, nullable = false)
 	private String descripcion;
+
+	/**
+	 * Constructor que permite crear un {@link EstatusPago} a partir de su
+	 * enumerador equivalente {@link EstatusPagoEnum}
+	 * 
+	 * @param estatusPagoEnum
+	 */
+	public EstatusPago(EstatusPagoEnum estatusPagoEnum) {
+		this.id = estatusPagoEnum.getId();
+		this.clave = estatusPagoEnum.name();
+	}
 }

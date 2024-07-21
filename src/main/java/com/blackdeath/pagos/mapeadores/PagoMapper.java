@@ -9,7 +9,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
-import com.blackdeath.pagos.modelos.PagoModel;
+import com.blackdeath.pagos.modelos.PagoGuardarModel;
 
 /**
  * Clase que permite realizar mapeos entre la entidad {@link Pago} y los modelos
@@ -23,30 +23,29 @@ import com.blackdeath.pagos.modelos.PagoModel;
 public interface PagoMapper {
 
 	/**
-	 * Convierte un {@link PagoModel} a un {@link Pago}
+	 * Convierte un {@link PagoGuardarModel} a un {@link Pago}
 	 * 
 	 * @param pagoModel
 	 * @return
 	 */
 	@Mapping(source = "idUsuario", target = "usuario.id")
 	@Mapping(source = "idDestinatario", target = "destinatario.id")
-	@Mapping(source = "estatus", target = "estatus", qualifiedByName = "mapEstatusEnumToEntity")
-    @Mapping(target = "fechaCreacion", ignore = true)
-    @Mapping(target = "fechaAplicacion", ignore = true)
+	@Mapping(target = "estatus", ignore = true)
+	@Mapping(target = "fechaCreacion", ignore = true)
+	@Mapping(target = "fechaAplicacion", ignore = true)
 	@Mapping(target = "id", ignore = true)
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	Pago toEntity(PagoModel pagoModel);
+	Pago toEntity(PagoGuardarModel pagoModel);
 
 	/**
-	 * Convierte un {@link Pago} a un {@link PagoModel}
+	 * Convierte un {@link Pago} a un {@link PagoGuardarModel}
 	 * 
 	 * @param pago
 	 * @return
 	 */
 	@Mapping(source = "usuario.id", target = "idUsuario")
 	@Mapping(source = "destinatario.id", target = "idDestinatario")
-	@Mapping(source = "estatus", target = "estatus", qualifiedByName = "mapEstatusEntityToEnum")
-	PagoModel toModel(Pago pago);
+	PagoGuardarModel toModel(Pago pago);
 
 	/**
 	 * Convierte un {@link EstatusPagoEnum} a un {@link EstatusPago}
@@ -64,7 +63,7 @@ public interface PagoMapper {
 		estatusPago.setClave(estatusPagoEnum.name());
 		return estatusPago;
 	}
-	
+
 	/**
 	 * Convierte un {@link EstatusPago} a un {@link EstatusPagoEnum}
 	 * 

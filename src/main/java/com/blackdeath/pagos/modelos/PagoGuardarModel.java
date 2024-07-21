@@ -3,7 +3,6 @@ package com.blackdeath.pagos.modelos;
 import java.math.BigDecimal;
 
 import com.blackdeath.pagos.entidades.Pago;
-import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
@@ -16,8 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Modelo que permite el envío y recepción de datos relacionados a un
- * {@link Pago}
+ * Modelo que permite guardar un {@link Pago}
  * 
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
@@ -25,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PagoModel {
+public class PagoGuardarModel {
 
 	/**
 	 * Monto de este pago
@@ -54,15 +52,8 @@ public class PagoModel {
 	/**
 	 * Identificador único del destinatario del pago
 	 */
-	@Schema(description = "ID del destinatario del pago", example = "2", requiredMode = RequiredMode.REQUIRED)
+	@Schema(description = "ID del destinatario del pago", example = "1", requiredMode = RequiredMode.REQUIRED)
 	@NotNull(message = "El ID del destinatario no puede ser nulo")
 	private Long idDestinatario;
-
-	/**
-	 * Estatus del pago
-	 */
-	@Schema(description = "Estatus del pago", example = "", requiredMode = RequiredMode.REQUIRED)
-	@NotNull(message = "El estatus no puede ser nulo")
-	private EstatusPagoEnum estatus;
 
 }

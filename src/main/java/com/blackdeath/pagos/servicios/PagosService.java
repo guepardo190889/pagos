@@ -2,10 +2,12 @@ package com.blackdeath.pagos.servicios;
 
 import org.springframework.stereotype.Service;
 
+import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
+import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
 import com.blackdeath.pagos.mapeadores.PagoMapper;
-import com.blackdeath.pagos.modelos.PagoModel;
-import com.blackdeath.pagos.repositorios.PagosRepository;
+import com.blackdeath.pagos.modelos.PagoGuardarModel;
+import com.blackdeath.pagos.transacciones.PagosTransaction;
 
 /**
  * {@link Service} para {@link Pago}
@@ -16,30 +18,31 @@ import com.blackdeath.pagos.repositorios.PagosRepository;
 @Service
 public class PagosService {
 
-	private final PagosRepository pagoRepository;
+	private final PagosTransaction pagosTransaction;
 	private final PagoMapper pagoMapper;
 
 	/**
 	 * Constructor que inyecta las dependencias necesarias para este servicio
 	 * 
-	 * @param repository
+	 * @param pagosTransaction
 	 * @param pagoMapper
 	 */
-	public PagosService(PagosRepository repository, PagoMapper pagoMapper) {
-		this.pagoRepository = repository;
+	public PagosService(PagosTransaction pagosTransaction, PagoMapper pagoMapper) {
+		this.pagosTransaction = pagosTransaction;
 		this.pagoMapper = pagoMapper;
 	}
 
 	/**
 	 * Guarda un {@link Pago}
 	 * 
-	 * @param pagoModel
+	 * @param pagoGuadarModel
 	 * @return
 	 */
-	public PagoModel guardar(PagoModel pagoModel) {
-		Pago pago = pagoMapper.toEntity(pagoModel);
+	public PagoGuardarModel guardar(PagoGuardarModel pagoGuadarModel) {
+		Pago pago = pagoMapper.toEntity(pagoGuadarModel);
+		pago.setEstatus(new EstatusPago(EstatusPagoEnum.GENERADO));
 
-		Pago pagoGuardado = pagoRepository.save(pago);
+		Pago pagoGuardado = pagosTransaction.guardar(pago);
 
 		return pagoMapper.toModel(pagoGuardado);
 	}

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blackdeath.pagos.entidades.Pago;
-import com.blackdeath.pagos.modelos.PagoModel;
+import com.blackdeath.pagos.modelos.PagoGuardarModel;
 import com.blackdeath.pagos.servicios.PagosService;
 
 /**
@@ -31,14 +31,14 @@ public class PagosController {
 	}
 
 	/**
-	 * Guarda un {@link Pago} mediante un {@link PagoModel}
+	 * Guarda un {@link Pago} mediante un {@link PagoGuardarModel}
 	 * 
-	 * @param pago
+	 * @param pagoGuardarModel
 	 * @return
 	 */
 	@PostMapping
-	public PagoModel guardar(PagoModel pago) {
-		return pagosService.guardar(pago);
+	public PagoGuardarModel guardar(PagoGuardarModel pagoGuardarModel) {
+		return pagosService.guardar(pagoGuardarModel);
 	}
 
 }

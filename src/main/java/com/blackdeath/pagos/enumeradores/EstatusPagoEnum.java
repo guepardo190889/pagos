@@ -2,12 +2,15 @@ package com.blackdeath.pagos.enumeradores;
 
 import com.blackdeath.pagos.entidades.Pago;
 
+import lombok.Getter;
+
 /**
  * Enumerador de estatus de un {@link Pago}
  * 
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
+@Getter
 public enum EstatusPagoEnum {
 	/**
 	 * {@link Pago} generado y guardado para su procesamiento
@@ -24,11 +27,16 @@ public enum EstatusPagoEnum {
 	NO_EFECTUADO(3);
 
 	/**
+	 * Identificador único usado en la entidad {@link Pago}
+	 */
+	private long id;
+
+	/**
 	 * Constructor privado
 	 * 
 	 * @param id
 	 */
-	private EstatusPagoEnum(int id) {
-
+	private EstatusPagoEnum(long id) {
+		this.id = id;
 	}
 }
