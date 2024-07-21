@@ -4,7 +4,7 @@ USE pagos;
 CREATE TABLE IF NOT EXISTS `pagos` (
   `id` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Identificador único del pago',
   `monto` decimal(11,2) COMMENT 'Monto del pago',
-  `concepto` varchar(255) COMMENT 'Concepto del pago',
+  `concepto` varchar(256) COMMENT 'Concepto del pago',
   `id_usuario` int COMMENT 'LLave foránea que hace referencia al Usuario que realiza el pago',
   `id_destinatario` int COMMENT 'Llave foránea que hace referencia al Destinatario del pago',
   `id_estatus` int COMMENT 'Llave foránea que hace referencia al Estatus del pago',
