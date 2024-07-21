@@ -1,5 +1,6 @@
 package com.blackdeath.pagos.servicios;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -75,6 +76,7 @@ public class PagosService {
 	public PagoModel actualizar(Long id, PagoActualizarModel pagoActualizarModel) {
 		Pago pago = pagoMapper.toEntity(pagoActualizarModel);
 		pago.setId(id);
+		pago.setFechaAplicacion(LocalDateTime.now());
 
 		// TODO que no se pueda actualizar el estatus a alguno "anterior" o a algún otro
 		// estatus si ya está en alguno "final"

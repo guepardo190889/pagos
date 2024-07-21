@@ -100,6 +100,10 @@ public class PagosTransaction {
 		Pago pagoEncontrado = pagosRepository.findById(pago.getId())
 				.orElseThrow(() -> new NoEncontradoException(pago.getId(), Entidad.PAGO));
 
+		if (pago.getFechaAplicacion() != null) {
+			pagoEncontrado.setFechaAplicacion(pago.getFechaAplicacion());
+		}
+
 		EstatusPago estatusPago = estatusPagosRepository.findById(pago.getEstatus().getId())
 				.orElseThrow(() -> new NoEncontradoException(pago.getEstatus().getId(), Entidad.ESTATUS_PAGO));
 		pagoEncontrado.setEstatus(estatusPago);
