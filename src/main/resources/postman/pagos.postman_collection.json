@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "8bb101e6-16c5-44f5-8fdb-32715eb8e7c5",
+		"name": "pagos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10368988"
+	},
+	"item": [
+		{
+			"name": "Buscar pago",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Guardar pago",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar pago",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

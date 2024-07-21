@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
+import com.blackdeath.pagos.kafka.productores.KafkaProducerService;
 import com.blackdeath.pagos.mapeadores.PagoMapper;
 import com.blackdeath.pagos.modelos.PagoActualizarModel;
 import com.blackdeath.pagos.modelos.PagoGuardarModel;
@@ -25,16 +26,20 @@ public class PagosService {
 
 	private final PagosTransaction pagosTransaction;
 	private final PagoMapper pagoMapper;
+	private final KafkaProducerService kafkaProducerService;
 
 	/**
 	 * Constructor que inyecta las dependencias necesarias para este servicio
 	 * 
 	 * @param pagosTransaction
 	 * @param pagoMapper
+	 * @param kafkaProducerService
 	 */
-	public PagosService(PagosTransaction pagosTransaction, PagoMapper pagoMapper) {
+	public PagosService(PagosTransaction pagosTransaction, PagoMapper pagoMapper,
+			KafkaProducerService kafkaProducerService) {
 		this.pagosTransaction = pagosTransaction;
 		this.pagoMapper = pagoMapper;
+		this.kafkaProducerService = kafkaProducerService;
 	}
 
 	/**
@@ -82,6 +87,8 @@ public class PagosService {
 		// estatus si ya está en alguno "final"
 
 		Pago pagoActualizado = pagosTransaction.actualizar(pago);
+
+		kafkaProducerService.sendMessage("Pago actualizado: " + pagoActualizado.getId());
 
 		return pagoMapper.toModel(pagoActualizado);
 	}
