@@ -11,7 +11,9 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Modelo que permite el envío y recepción de datos relacionados a un
@@ -20,6 +22,8 @@ import lombok.Data;
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class PagoModel {
 

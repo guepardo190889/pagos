@@ -1,7 +1,10 @@
 package com.blackdeath.pagos.mapeadores;
 
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
@@ -16,6 +19,7 @@ import com.blackdeath.pagos.modelos.PagoModel;
  * @since 2024-07-20
  * 
  */
+@Mapper(componentModel = "spring")
 public interface PagoMapper {
 
 	/**
@@ -27,6 +31,10 @@ public interface PagoMapper {
 	@Mapping(source = "idUsuario", target = "usuario.id")
 	@Mapping(source = "idDestinatario", target = "destinatario.id")
 	@Mapping(source = "estatus", target = "estatus", qualifiedByName = "mapEstatusEnumToEntity")
+    @Mapping(target = "fechaCreacion", ignore = true)
+    @Mapping(target = "fechaAplicacion", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	Pago toEntity(PagoModel pagoModel);
 
 	/**
@@ -53,10 +61,10 @@ public interface PagoMapper {
 		}
 
 		EstatusPago estatusPago = new EstatusPago();
-//		estatusPago.setClave(estatusPagoEnum.name());
+		estatusPago.setClave(estatusPagoEnum.name());
 		return estatusPago;
 	}
-
+	
 	/**
 	 * Convierte un {@link EstatusPago} a un {@link EstatusPagoEnum}
 	 * 
@@ -65,12 +73,11 @@ public interface PagoMapper {
 	 */
 	@Named("mapEstatusEntityToEnum")
 	default EstatusPagoEnum mapEstatusEntityToEnum(EstatusPago estatusPago) {
-//		if (estatusPago == null || estatusPago.getClave() == null) {
-//			return null;
-//		}
-//
-//		return EstatusPagoEnum.valueOf(estatusPago.getClave());
-		return null;
+		if (estatusPago == null || estatusPago.getClave() == null) {
+			return null;
+		}
+
+		return EstatusPagoEnum.valueOf(estatusPago.getClave());
 	}
 
 }

@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Table(name = "pagos", indexes = { @Index(name = "idx_pagos_id", columnList = "id") })
 @Entity
