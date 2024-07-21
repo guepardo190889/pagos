@@ -2,11 +2,22 @@ Table pagos {
   id int [pk, increment, note: "Identificador único del pago"]
   monto decimal(11,2) [note: "Monto del pago"]
   concepto varchar(255)  [note: "Concepto del pago"]
+  id_cuenta int [ref: > cuentas.id, note: "Llave foránea que hace referencia a la Cuenta desde la que se realiza el pago"]
   id_usuario int [ref: > usuarios.id, note: "LLave foránea que hace referencia al Usuario que realiza el pago"]
   id_destinatario int [ref: > destinatarios.id, note: "Llave foránea que hace referencia al Destinatario del pago"]
   id_estatus int [ref: > estatus_pagos.id, note: "Llave foránea que hace referencia al Estatus del pago"]
   fecha_creacion datetime [note: "Fecha en se creó el pago"]
   fecha_aplicacion datetime [note: "Fecha en que se aplicó el pago"]
+}
+
+Table cuentas {
+  id int [pk, increment, note: "Identificador único de la cuenta"]
+  numero varchar(12) [note: "Número de la cuenta"]
+  clabe varchar(18) [note: "CLABE interbancaria de la cuenta"]
+  saldo decimal(11,2) [note: "Saldo de la cuenta"]
+  id_usuario int [ref: > usuarios.id, note: "Llave foránea que hace referencia al Usuario al que pertenece esta cuenta"]
+  fecha_creacion datetime [note: "Fecha en que se creó la cuenta"]
+  fecha_activacion datetime [note: "Fecha en que se activó la cuenta"]
 }
 
 Table usuarios {
@@ -15,7 +26,7 @@ Table usuarios {
   apellido_paterno varchar(128) [note: "Apellido paterno del usuario"]
   apellido_materno varchar(128) [note: "Apellido materno del usuario"]
   rfc varchar(13) [note: "Registro Federal de Contribuyentes del usuario"]
-  fecha_creacion datetime [note: "Fecha en que se creó el registro del usuario"]
+  fecha_creacion datetime [note: "Fecha en que se creó el usuario"]
 }
 
 Table destinatarios {
@@ -24,7 +35,7 @@ Table destinatarios {
   apellido_paterno varchar(128) [note: "Apellido paterno del destinatario"]
   apellido_materno varchar(128) [note: "Apellido materno del destinatario"]
   rfc varchar(13) [note: "Registro Federal de Contribuyentes del destinatario"]
-  fecha_creacion datetime [note: "Fecha en que se creó el registro del destinatario"]
+  fecha_creacion datetime [note: "Fecha en que se creó el destinatario"]
 }
 
 Table estatus_pagos {

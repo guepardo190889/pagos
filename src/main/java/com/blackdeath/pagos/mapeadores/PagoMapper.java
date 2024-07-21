@@ -10,6 +10,7 @@ import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
 import com.blackdeath.pagos.modelos.PagoGuardarModel;
+import com.blackdeath.pagos.modelos.PagoModel;
 
 /**
  * Clase que permite realizar mapeos entre la entidad {@link Pago} y los modelos
@@ -28,6 +29,7 @@ public interface PagoMapper {
 	 * @param pagoModel
 	 * @return
 	 */
+	@Mapping(source = "idCuenta", target = "cuenta.id")
 	@Mapping(source = "idUsuario", target = "usuario.id")
 	@Mapping(source = "idDestinatario", target = "destinatario.id")
 	@Mapping(target = "estatus", ignore = true)
@@ -43,9 +45,37 @@ public interface PagoMapper {
 	 * @param pago
 	 * @return
 	 */
+	@Mapping(source = "cuenta.id", target = "idCuenta")
 	@Mapping(source = "usuario.id", target = "idUsuario")
 	@Mapping(source = "destinatario.id", target = "idDestinatario")
-	PagoGuardarModel toModel(Pago pago);
+	PagoGuardarModel toGuardarModel(Pago pago);
+
+	/**
+	 * Convierte un {@link Pago} a un {@link PagoModel}
+	 * 
+	 * @param pago
+	 * @return
+	 */
+	@Mapping(source = "cuenta.id", target = "idCuenta")
+	@Mapping(source = "usuario.id", target = "idUsuario")
+	@Mapping(source = "destinatario.id", target = "idDestinatario")
+	@Mapping(source = "estatus", target = "estatus", qualifiedByName = "mapEstatusEntityToEnum")
+	PagoModel toModel(Pago pago);
+
+	/**
+	 * Convierte un {@link EstatusPago} a un {@link EstatusPagoEnum}
+	 * 
+	 * @param estatusPago
+	 * @return
+	 */
+	@Named("mapEstatusEntityToEnum")
+	default EstatusPagoEnum mapEstatusEntityToEnum(EstatusPago estatusPago) {
+		if (estatusPago == null || estatusPago.getClave() == null) {
+			return null;
+		}
+
+		return EstatusPagoEnum.valueOf(estatusPago.getClave());
+	}
 
 	/**
 	 * Convierte un {@link EstatusPagoEnum} a un {@link EstatusPago}
@@ -62,21 +92,6 @@ public interface PagoMapper {
 		EstatusPago estatusPago = new EstatusPago();
 		estatusPago.setClave(estatusPagoEnum.name());
 		return estatusPago;
-	}
-
-	/**
-	 * Convierte un {@link EstatusPago} a un {@link EstatusPagoEnum}
-	 * 
-	 * @param estatusPago
-	 * @return
-	 */
-	@Named("mapEstatusEntityToEnum")
-	default EstatusPagoEnum mapEstatusEntityToEnum(EstatusPago estatusPago) {
-		if (estatusPago == null || estatusPago.getClave() == null) {
-			return null;
-		}
-
-		return EstatusPagoEnum.valueOf(estatusPago.getClave());
 	}
 
 }

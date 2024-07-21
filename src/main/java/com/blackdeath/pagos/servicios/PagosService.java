@@ -1,5 +1,7 @@
 package com.blackdeath.pagos.servicios;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.blackdeath.pagos.entidades.EstatusPago;
@@ -7,6 +9,7 @@ import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
 import com.blackdeath.pagos.mapeadores.PagoMapper;
 import com.blackdeath.pagos.modelos.PagoGuardarModel;
+import com.blackdeath.pagos.modelos.PagoModel;
 import com.blackdeath.pagos.transacciones.PagosTransaction;
 
 /**
@@ -44,7 +47,19 @@ public class PagosService {
 
 		Pago pagoGuardado = pagosTransaction.guardar(pago);
 
-		return pagoMapper.toModel(pagoGuardado);
+		return pagoMapper.toGuardarModel(pagoGuardado);
+	}
+
+	/**
+	 * Busca un {@link Pago}
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Optional<PagoModel> buscar(Long id) {
+		Optional<Pago> pago = pagosTransaction.buscarPorId(id);
+
+		return pago.map(pagoMapper::toModel);
 	}
 
 }

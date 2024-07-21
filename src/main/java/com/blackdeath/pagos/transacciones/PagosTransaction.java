@@ -1,11 +1,16 @@
 package com.blackdeath.pagos.transacciones;
 
-import org.springframework.stereotype.Component;
+import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.blackdeath.pagos.entidades.Cuenta;
 import com.blackdeath.pagos.entidades.Destinatario;
 import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.entidades.Usuario;
+import com.blackdeath.pagos.repositorios.CuentasRepository;
 import com.blackdeath.pagos.repositorios.DestinatariosRepository;
 import com.blackdeath.pagos.repositorios.EstatusPagosRepository;
 import com.blackdeath.pagos.repositorios.PagosRepository;
@@ -17,10 +22,12 @@ import com.blackdeath.pagos.repositorios.UsuariosRepository;
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
+@Transactional
 @Component
 public class PagosTransaction {
 
 	private final PagosRepository pagosRepository;
+	private final CuentasRepository cuentasRepository;
 	private final UsuariosRepository usuariosRepository;
 	private final DestinatariosRepository destinatariosRepository;
 	private final EstatusPagosRepository estatusPagosRepository;
@@ -30,16 +37,29 @@ public class PagosTransaction {
 	 * servicio
 	 * 
 	 * @param pagosRepository
+	 * @param cuentasRepository;
 	 * @param usuariosRepository
 	 * @param destinatariosRepository
 	 * @param estatusPagosRepository
 	 */
-	public PagosTransaction(PagosRepository pagosRepository, UsuariosRepository usuariosRepository,
-			DestinatariosRepository destinatariosRepository, EstatusPagosRepository estatusPagosRepository) {
+	public PagosTransaction(PagosRepository pagosRepository, CuentasRepository cuentasRepository,
+			UsuariosRepository usuariosRepository, DestinatariosRepository destinatariosRepository,
+			EstatusPagosRepository estatusPagosRepository) {
 		this.pagosRepository = pagosRepository;
+		this.cuentasRepository = cuentasRepository;
 		this.usuariosRepository = usuariosRepository;
 		this.destinatariosRepository = destinatariosRepository;
 		this.estatusPagosRepository = estatusPagosRepository;
+	}
+
+	/**
+	 * Busca un {@link Pago} por su identificador único
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Optional<Pago> buscarPorId(Long id) {
+		return pagosRepository.findById(id);
 	}
 
 	/**
@@ -52,6 +72,10 @@ public class PagosTransaction {
 		EstatusPago estatusPago = estatusPagosRepository.findById(pago.getEstatus().getId())
 				.orElseThrow(() -> new IllegalArgumentException("EstatusPago no encontrado"));
 		pago.setEstatus(estatusPago);
+
+		Cuenta cuenta = cuentasRepository.findById(pago.getCuenta().getId())
+				.orElseThrow(() -> new IllegalArgumentException("Cuenta no encontrada"));
+		pago.setCuenta(cuenta);
 
 		Usuario usuario = usuariosRepository.findById(pago.getUsuario().getId())
 				.orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));

@@ -53,6 +53,13 @@ public class Pago {
 	private String concepto;
 
 	/**
+	 * {@link Cuenta} desde la que realiza este pago
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cuenta", nullable = false)
+	private Cuenta cuenta;
+
+	/**
 	 * {@link Usuario} que realiza este pago
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)

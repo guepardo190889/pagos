@@ -43,6 +43,13 @@ public class PagoGuardarModel {
 	private String concepto;
 
 	/**
+	 * Identificador único de la cuenta desde la que se realiza el pago
+	 */
+	@Schema(description = "Identificador único de la cuenta desde la que se realiza el pago", example = "1", requiredMode = RequiredMode.REQUIRED)
+	@NotNull(message = "Identificador único de la cuenta desde la que se realiza el pago")
+	private Long idCuenta;
+
+	/**
 	 * Identificador único del usuario que realiza el pago
 	 */
 	@Schema(description = "Identificador único del usuario que realiza el pago", example = "1", requiredMode = RequiredMode.REQUIRED)
@@ -52,8 +59,8 @@ public class PagoGuardarModel {
 	/**
 	 * Identificador único del destinatario del pago
 	 */
-	@Schema(description = "ID del destinatario del pago", example = "1", requiredMode = RequiredMode.REQUIRED)
-	@NotNull(message = "El ID del destinatario no puede ser nulo")
+	@Schema(description = "Identifiacdor único del destinatario del pago", example = "1", requiredMode = RequiredMode.REQUIRED)
+	@NotNull(message = "Identificador único del destinatario no puede ser nulo")
 	private Long idDestinatario;
 
 }
