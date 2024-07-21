@@ -19,9 +19,10 @@ import com.blackdeath.pagos.modelos.PagoActualizarModel;
 import com.blackdeath.pagos.modelos.PagoGuardarModel;
 import com.blackdeath.pagos.modelos.PagoModel;
 import com.blackdeath.pagos.servicios.PagosService;
+import com.blackdeath.pagos.utilerias.enumeradores.Entidad;
+import com.blackdeath.pagos.utilerias.excepciones.NoEncontradoException;
 
 import jakarta.validation.Valid;
-
 
 /**
  * {@link Controller} para {@link Pago}
@@ -57,7 +58,7 @@ public class PagosController {
 		if (pagoModel.isPresent()) {
 			return ResponseEntity.ok(pagoModel.get());
 		} else {
-			ErrorModel error = new ErrorModel("Pago no encontrado");
+			ErrorModel error = new ErrorModel("No se encontró " + Entidad.PAGO.name() + " con id " + id);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 		}
 	}
@@ -69,16 +70,28 @@ public class PagosController {
 	 * @return
 	 */
 	@PostMapping
-	public PagoGuardarModel guardar(@Valid @RequestBody PagoGuardarModel pagoGuardarModel) {
+	public PagoModel guardar(@Valid @RequestBody PagoGuardarModel pagoGuardarModel) {
 		return pagosService.guardar(pagoGuardarModel);
 	}
 
 	/**
 	 * Actualiza un @link{Pago}
+	 * 
+	 * @param id
+	 * @param pagoActualizarModel
+	 * 
+	 * @return
 	 */
 	@PatchMapping("/{id}")
-	public void actualizar(@Valid @RequestBody PagoActualizarModel pagoActualizarModel) {
-		pagosService.actualizar(pagoActualizarModel);
+	public ResponseEntity<?> actualizar(@PathVariable Long id,
+			@Valid @RequestBody PagoActualizarModel pagoActualizarModel) {
+		try {
+			PagoModel pagoActualizado = pagosService.actualizar(id, pagoActualizarModel);
+			return ResponseEntity.ok(pagoActualizado);
+		} catch (NoEncontradoException e) {
+			ErrorModel error = new ErrorModel(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+		}
 	}
 
 }

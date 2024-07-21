@@ -54,23 +54,34 @@ public class PagosService {
 	 * @param pagoGuadarModel
 	 * @return
 	 */
-	public PagoGuardarModel guardar(PagoGuardarModel pagoGuadarModel) {
+	public PagoModel guardar(PagoGuardarModel pagoGuadarModel) {
 		Pago pago = pagoMapper.toEntity(pagoGuadarModel);
 		pago.setEstatus(new EstatusPago(EstatusPagoEnum.GENERADO));
 
+		// TODO Validar si la cuenta tiene saldo disponible para efectuar el pago
+
 		Pago pagoGuardado = pagosTransaction.guardar(pago);
 
-		return pagoMapper.toGuardarModel(pagoGuardado);
+		return pagoMapper.toModel(pagoGuardado);
 	}
 
 	/**
 	 * Actualiza un {@link Pago}
 	 * 
+	 * @param id
 	 * @param pagoActualizarModel
+	 * @return
 	 */
-	public void actualizar(PagoActualizarModel pagoActualizarModel) {
-		// TODO Auto-generated method stub
+	public PagoModel actualizar(Long id, PagoActualizarModel pagoActualizarModel) {
+		Pago pago = pagoMapper.toEntity(pagoActualizarModel);
+		pago.setId(id);
 
+		// TODO que no se pueda actualizar el estatus a alguno "anterior" o a algún otro
+		// estatus si ya está en alguno "final"
+
+		Pago pagoActualizado = pagosTransaction.actualizar(pago);
+
+		return pagoMapper.toModel(pagoActualizado);
 	}
 
 }

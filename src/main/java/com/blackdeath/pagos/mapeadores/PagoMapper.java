@@ -1,14 +1,13 @@
 package com.blackdeath.pagos.mapeadores;
 
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
+import com.blackdeath.pagos.modelos.PagoActualizarModel;
 import com.blackdeath.pagos.modelos.PagoGuardarModel;
 import com.blackdeath.pagos.modelos.PagoModel;
 
@@ -26,7 +25,7 @@ public interface PagoMapper {
 	/**
 	 * Convierte un {@link PagoGuardarModel} a un {@link Pago}
 	 * 
-	 * @param pagoModel
+	 * @param pagoActualizaModel
 	 * @return
 	 */
 	@Mapping(source = "idCuenta", target = "cuenta.id")
@@ -36,8 +35,24 @@ public interface PagoMapper {
 	@Mapping(target = "fechaCreacion", ignore = true)
 	@Mapping(target = "fechaAplicacion", ignore = true)
 	@Mapping(target = "id", ignore = true)
-	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	Pago toEntity(PagoGuardarModel pagoModel);
+	Pago toEntity(PagoGuardarModel pagoActualizaModel);
+
+	/**
+	 * Convierte un {@link PagoActualizarModel} a un {@link Pago}
+	 * 
+	 * @param pagoActualizaModel
+	 * @return
+	 */
+	@Mapping(source = "estatus", target = "estatus", qualifiedByName = "mapEstatusEnumToEntity")
+	@Mapping(target = "cuenta", ignore = true)
+	@Mapping(target = "concepto", ignore = true)
+	@Mapping(target = "monto", ignore = true)
+	@Mapping(target = "usuario", ignore = true)
+	@Mapping(target = "destinatario", ignore = true)
+	@Mapping(target = "fechaCreacion", ignore = true)
+	@Mapping(target = "fechaAplicacion", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	Pago toEntity(PagoActualizarModel pagoActualizaModel);
 
 	/**
 	 * Convierte un {@link Pago} a un {@link PagoGuardarModel}
@@ -90,6 +105,7 @@ public interface PagoMapper {
 		}
 
 		EstatusPago estatusPago = new EstatusPago();
+		estatusPago.setId(estatusPagoEnum.getId());
 		estatusPago.setClave(estatusPagoEnum.name());
 		return estatusPago;
 	}

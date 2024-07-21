@@ -13,18 +13,24 @@ import lombok.Getter;
 @Getter
 public enum EstatusPagoEnum {
 	/**
-	 * {@link Pago} generado y guardado para su procesamiento
+	 * {@link Pago} generado y guardado para su procesamiento.
 	 */
 	GENERADO(1),
 	/**
-	 * {@link Pago} procesado y enviado a su destinatario
+	 * {@link Pago} procesado y pagado a su destinatario.
+	 * <p>
+	 * Este es un estatus final y no debería ser modificado.
+	 * </p>
 	 */
-	ENVIADO(2),
+	PAGADO(2),
 	/**
-	 * {@link Pago} procesado pero no enviado. Esto se puede deber a algún error en
-	 * el procesamiento por inclumplir alguna regla de negocio
+	 * {@link Pago} procesado pero no pagado al destinatario.
+	 * <p>
+	 * Esto se puede deber a algún error en el procesamiento por inclumplir alguna
+	 * regla de negocio. Este es un estatus final y no debería ser modificado.
+	 * </p>
 	 */
-	NO_EFECTUADO(3);
+	NO_PAGADO(3);
 
 	/**
 	 * Identificador único usado en la entidad {@link Pago}

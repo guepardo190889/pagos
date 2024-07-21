@@ -15,6 +15,8 @@ import com.blackdeath.pagos.repositorios.DestinatariosRepository;
 import com.blackdeath.pagos.repositorios.EstatusPagosRepository;
 import com.blackdeath.pagos.repositorios.PagosRepository;
 import com.blackdeath.pagos.repositorios.UsuariosRepository;
+import com.blackdeath.pagos.utilerias.enumeradores.Entidad;
+import com.blackdeath.pagos.utilerias.excepciones.NoEncontradoException;
 
 /**
  * Transacciones para {@link Pago}
@@ -70,21 +72,38 @@ public class PagosTransaction {
 	 */
 	public Pago guardar(Pago pago) {
 		EstatusPago estatusPago = estatusPagosRepository.findById(pago.getEstatus().getId())
-				.orElseThrow(() -> new IllegalArgumentException("EstatusPago no encontrado"));
+				.orElseThrow(() -> new NoEncontradoException(pago.getEstatus().getId(), Entidad.ESTATUS_PAGO));
 		pago.setEstatus(estatusPago);
 
 		Cuenta cuenta = cuentasRepository.findById(pago.getCuenta().getId())
-				.orElseThrow(() -> new IllegalArgumentException("Cuenta no encontrada"));
+				.orElseThrow(() -> new NoEncontradoException(pago.getCuenta().getId(), Entidad.CUENTA));
 		pago.setCuenta(cuenta);
 
 		Usuario usuario = usuariosRepository.findById(pago.getUsuario().getId())
-				.orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+				.orElseThrow(() -> new NoEncontradoException(pago.getUsuario().getId(), Entidad.USUARIO));
 		pago.setUsuario(usuario);
 
 		Destinatario destinatario = destinatariosRepository.findById(pago.getDestinatario().getId())
-				.orElseThrow(() -> new IllegalArgumentException("Destinatario no encontrado"));
+				.orElseThrow(() -> new NoEncontradoException(pago.getDestinatario().getId(), Entidad.DESTINATARIO));
 		pago.setDestinatario(destinatario);
 
 		return pagosRepository.save(pago);
+	}
+
+	/**
+	 * Actualiza un {@link Pago}
+	 * 
+	 * @param pago
+	 * @return
+	 */
+	public Pago actualizar(Pago pago) {
+		Pago pagoEncontrado = pagosRepository.findById(pago.getId())
+				.orElseThrow(() -> new NoEncontradoException(pago.getId(), Entidad.PAGO));
+
+		EstatusPago estatusPago = estatusPagosRepository.findById(pago.getEstatus().getId())
+				.orElseThrow(() -> new NoEncontradoException(pago.getEstatus().getId(), Entidad.ESTATUS_PAGO));
+		pagoEncontrado.setEstatus(estatusPago);
+
+		return pagosRepository.save(pagoEncontrado);
 	}
 }
