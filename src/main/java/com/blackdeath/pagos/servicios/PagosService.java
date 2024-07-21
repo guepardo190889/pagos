@@ -8,6 +8,7 @@ import com.blackdeath.pagos.entidades.EstatusPago;
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
 import com.blackdeath.pagos.mapeadores.PagoMapper;
+import com.blackdeath.pagos.modelos.PagoActualizarModel;
 import com.blackdeath.pagos.modelos.PagoGuardarModel;
 import com.blackdeath.pagos.modelos.PagoModel;
 import com.blackdeath.pagos.transacciones.PagosTransaction;
@@ -36,6 +37,18 @@ public class PagosService {
 	}
 
 	/**
+	 * Busca un {@link Pago}
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Optional<PagoModel> buscar(Long id) {
+		Optional<Pago> pago = pagosTransaction.buscarPorId(id);
+
+		return pago.map(pagoMapper::toModel);
+	}
+
+	/**
 	 * Guarda un {@link Pago}
 	 * 
 	 * @param pagoGuadarModel
@@ -51,15 +64,13 @@ public class PagosService {
 	}
 
 	/**
-	 * Busca un {@link Pago}
+	 * Actualiza un {@link Pago}
 	 * 
-	 * @param id
-	 * @return
+	 * @param pagoActualizarModel
 	 */
-	public Optional<PagoModel> buscar(Long id) {
-		Optional<Pago> pago = pagosTransaction.buscarPorId(id);
+	public void actualizar(PagoActualizarModel pagoActualizarModel) {
+		// TODO Auto-generated method stub
 
-		return pago.map(pagoMapper::toModel);
 	}
 
 }

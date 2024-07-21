@@ -43,34 +43,34 @@ public class Pago {
 	/**
 	 * Monto de este pago
 	 */
-	@Column(name = "monto", precision = 11, scale = 2, nullable = false)
+	@Column(name = "monto", updatable = false, precision = 11, scale = 2, nullable = false)
 	private BigDecimal monto;
 
 	/**
 	 * Concepto de este pago
 	 */
-	@Column(name = "concepto", length = 256, nullable = false)
+	@Column(name = "concepto", updatable = false, length = 256, nullable = false)
 	private String concepto;
 
 	/**
 	 * {@link Cuenta} desde la que realiza este pago
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_cuenta", nullable = false)
+	@JoinColumn(name = "id_cuenta", updatable = false, nullable = false)
 	private Cuenta cuenta;
 
 	/**
 	 * {@link Usuario} que realiza este pago
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_usuario", nullable = false)
+	@JoinColumn(name = "id_usuario", updatable = false, nullable = false)
 	private Usuario usuario;
 
 	/**
 	 * {@link Destinatario} que recibe este pago
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_destinatario", nullable = false)
+	@JoinColumn(name = "id_destinatario", updatable = false, nullable = false)
 	private Destinatario destinatario;
 
 	/**
