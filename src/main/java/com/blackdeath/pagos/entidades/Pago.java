@@ -69,7 +69,7 @@ public class Pago {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario", updatable = false, nullable = false)
-	@Comment("LLave foránea que hace referencia al Usuario que realiza el pago")
+	@Comment("Llave foránea que hace referencia al Usuario que realiza el pago")
 	private Usuario usuario;
 
 	/**

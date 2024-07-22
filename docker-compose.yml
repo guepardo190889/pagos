@@ -33,6 +33,19 @@ services:
       MYSQL_PASSWORD: aeiou123
     volumes:
       - mysql_data:/var/lib/mysql
+      
+  app:
+    image: pagos-app:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pagos
+      SPRING_DATASOURCE_USERNAME: blackdeath
+      SPRING_DATASOURCE_PASSWORD: aeiou123
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
 volumes:
   mysql_data:

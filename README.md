@@ -6,12 +6,10 @@ Este proyecto es una aplicación Spring Boot para gestionar pagos, con integraci
 ## Índice
 
 1. [Requisitos](#requisitos)
-2. [Instalación](#instalación)
-3. [Configuración](#configuración)
-4. [Uso](#uso)
-5. [API](#api)
-6. [Integración con Kafka](#integración-con-kafka)
-7. [Documentación Adicional](#documentación-adicional)
+2. [Configuración](#configuración)
+3. [Uso](#uso)
+4. [API](#api)
+5. [Integración con Kafka](#integración-con-kafka)
 
 ## Requisitos
 
@@ -21,96 +19,25 @@ Este proyecto es una aplicación Spring Boot para gestionar pagos, con integraci
 - MySQL 8.0.29 o superior
 - Kafka 3.2.3
 
-## Instalación
+## Configuración
+
+###Script
+Puedes descargar o copiar el script [install.sh](https://github.com/guepardo190889/pagos/blob/main/pom.xml) y ejecutarlo para que haga todo por tí
 
 ### Clonar el Repositorio
-
 ```bash
 git clone https://github.com/tu-usuario/pagos.git
 cd pagos
 ```
-
-### Construir el Proyecto
-
-```bash
-./mvnw clean install
-```
-
-## Configuración
-
 ### Configuración de Docker
 
-Este proyecto utiliza Docker Compose para levantar los servicios de Kafka y Zookeeper. 
+Este proyecto utiliza Docker Compose para levantar los servicios de MySQL, Kafka y Zookeeper. 
 
-#### `docker-compose.yml`
-
-```yaml
-version: '3.9'
-services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.2.1
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-
-  kafka:
-    image: confluentinc/cp-kafka:7.2.1
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    depends_on:
-      - zookeeper
+### Construir la imagen de la aplicación
+```bash
+docker build -t pagos-app:latest .
 ```
-
-### Configuración de MySQL
-
-Configura tu base de datos MySQL y crea una base de datos llamada `pagos`.
-
-```sql
-CREATE DATABASE pagos;
-```
-
-### Configuración de la Aplicación
-
-Configura las propiedades de la aplicación en el archivo `src/main/resources/application.properties`.
-
-```properties
-spring.application.name=pagos
-
-# Base de datos
-spring.datasource.url=jdbc:mysql://localhost:3306/pagos
-spring.datasource.username=tu-usuario
-spring.datasource.password=tu-contraseña
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.properties.hibernate.use_sql_comments=true
-
-# Kafka
-spring.kafka.bootstrap-servers=localhost:9092
-spring.kafka.consumer.group-id=grupo-consumidor-pagos
-spring.kafka.consumer.auto-offset-reset=earliest
-spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
-spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
-
-# Swagger
-springdoc.api-docs.path=/v3/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
-```
-
-### Levantar los Servicios de Docker
+### Levantar los Servicios de Docker (ejecutar dentro de la carpeta raíz del repositorio)
 
 ```bash
 docker-compose up -d
@@ -118,15 +45,9 @@ docker-compose up -d
 
 ## Uso
 
-### Levantar la Aplicación
-
-```bash
-./mvnw spring-boot:run
-```
-
 ### Acceder a Swagger
 
-Visita `http://localhost:8080/swagger-ui.html` para ver la documentación interactiva de la API.
+Visita la [documentación interactiva](http://localhost:8080/swagger-ui.html) de la API
 
 ## API
 
