@@ -51,33 +51,33 @@ public class CuentasRepositoryTest {
 	}
 
 	@Test
-	    public void testGuardarCuenta() {
-	        when(cuentasRepository.save(any(Cuenta.class))).thenReturn(cuenta);
+    public void testGuardarCuenta() {
+        when(cuentasRepository.save(any(Cuenta.class))).thenReturn(cuenta);
 
-	        Cuenta resultado = cuentasRepository.save(cuenta);
+        Cuenta resultado = cuentasRepository.save(cuenta);
 
-	        assertEquals("123456789012", resultado.getNumero());
-	    }
-
-	@Test
-	    public void testConsultarCuenta() {
-	        when(cuentasRepository.findById(1L)).thenReturn(Optional.of(cuenta));
-
-	        Optional<Cuenta> resultado = cuentasRepository.findById(1L);
-
-	        assertEquals(true, resultado.isPresent());
-	        assertEquals("123456789012", resultado.get().getNumero());
-	    }
+        assertEquals("123456789012", resultado.getNumero());
+    }
 
 	@Test
-	    public void testActualizarCuenta() {
-	        when(cuentasRepository.save(any(Cuenta.class))).thenReturn(cuenta);
+    public void testConsultarCuenta() {
+        when(cuentasRepository.findById(1L)).thenReturn(Optional.of(cuenta));
 
-	        cuenta.setSaldo(new BigDecimal("900.00"));
-	        Cuenta resultado = cuentasRepository.save(cuenta);
+        Optional<Cuenta> resultado = cuentasRepository.findById(1L);
 
-	        assertEquals(new BigDecimal("900.00"), resultado.getSaldo());
-	    }
+        assertEquals(true, resultado.isPresent());
+        assertEquals("123456789012", resultado.get().getNumero());
+    }
+
+	@Test
+    public void testActualizarCuenta() {
+        when(cuentasRepository.save(any(Cuenta.class))).thenReturn(cuenta);
+
+        cuenta.setSaldo(new BigDecimal("900.00"));
+        Cuenta resultado = cuentasRepository.save(cuenta);
+
+        assertEquals(new BigDecimal("900.00"), resultado.getSaldo());
+    }
 
 	@Test
 	public void testEliminarCuenta() {
