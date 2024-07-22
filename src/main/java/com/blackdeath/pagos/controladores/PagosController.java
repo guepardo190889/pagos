@@ -25,11 +25,13 @@ import com.blackdeath.pagos.utilerias.enumeradores.Entidad;
 import com.blackdeath.pagos.utilerias.excepciones.NoEncontradoException;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * {@link Controller} para {@link Pago}
@@ -64,7 +66,8 @@ public class PagosController {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
 			@ApiResponse(responseCode = "404", description = "Pago no encontrado", content = @Content) })
 	@GetMapping("/{id}")
-	public ResponseEntity<?> buscar(@PathVariable Long id) {
+	public ResponseEntity<?> buscar(
+			@Parameter(description = "Identificador único del pago a buscar", required = true) @PathVariable Long id) {
 		Optional<PagoModel> pagoModel = pagosService.buscar(id);
 
 		if (pagoModel.isPresent()) {
@@ -87,7 +90,8 @@ public class PagosController {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
 			@ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content) })
 	@PostMapping
-	public ResponseEntity<PagoModel> guardar(@Valid @RequestBody PagoGuardarModel pagoGuardarModel) {
+	public ResponseEntity<PagoModel> guardar(
+			@Parameter(description = "Modelo del pago a guardar", required = true) @Valid @NotNull @RequestBody PagoGuardarModel pagoGuardarModel) {
 		PagoModel pagoGuardado = pagosService.guardar(pagoGuardarModel);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -110,7 +114,8 @@ public class PagosController {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
 			@ApiResponse(responseCode = "404", description = "Pago no encontrado", content = @Content) })
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> actualizar(@PathVariable Long id,
+	public ResponseEntity<?> actualizar(
+			@Parameter(description = "Identificador único del pago a actualizar", required = true) @PathVariable Long id,
 			@Valid @RequestBody PagoActualizarModel pagoActualizarModel) {
 		try {
 			PagoModel pagoActualizado = pagosService.actualizar(id, pagoActualizarModel);

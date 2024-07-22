@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
+@Schema(description = "Modelo que contiene los datos a actualizar en un pago")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

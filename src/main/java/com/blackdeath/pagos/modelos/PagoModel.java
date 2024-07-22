@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
+@Schema(description = "Modelo que representa un pago")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
