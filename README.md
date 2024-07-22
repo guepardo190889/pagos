@@ -30,7 +30,7 @@ Este proyecto es una aplicación Spring Boot para gestionar pagos, con integraci
 - DRY (Don't Repeat Yourself): Evitar la duplicación de código mediante la reutilización de componentes comunes
 - KISS (Keep It Simple, Stupid): Mantener el código lo más simple y claro posible, evitando complejidades innecesarias
 - Pruebas unitarias > Validar el comportamiento correcto del código mediante pruebas unitarias con frameworks como JUnit
-- DTO (Data Transfer Object):  Uso de objetos de transferencia de datos entre capas. En este proyecto, los objetos 'Model' se utilizan para intercambiar información con los clientes
+- DTO (Data Transfer Object):  Uso de objetos de transferencia de datos entre capas. En este proyecto, los objetos 'Model' se utilizan para intercambiar información con los clientes. Para las operaciones CRUD es necesario crear un modelo por cada una utilizando el formato [Entidad][Guardar/Actualizar][Model]. Solo para el caso de una consulta se podrá nombrar el modelo como [Entidad][Model]
 - Enumeradores: Se usan para controlar grupos de datos relacionados. Pueden incluir también una réplica de tablas pequeñas. Facilitan la lectura, comprensión y uso del código
 
 ### Arquitectura
