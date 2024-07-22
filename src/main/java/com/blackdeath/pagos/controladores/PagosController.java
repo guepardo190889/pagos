@@ -104,7 +104,7 @@ public class PagosController {
 	 * 
 	 * @return
 	 */
-	@Operation(summary = "Actualiza el estatus de un pago")
+	@Operation(summary = "Actualiza un pago")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Estatus del pago actualizado", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
