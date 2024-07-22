@@ -1,5 +1,6 @@
 package com.blackdeath.pagos.controladores;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.blackdeath.pagos.entidades.Pago;
 import com.blackdeath.pagos.modelos.ErrorModel;
@@ -22,6 +24,11 @@ import com.blackdeath.pagos.servicios.PagosService;
 import com.blackdeath.pagos.utilerias.enumeradores.Entidad;
 import com.blackdeath.pagos.utilerias.excepciones.NoEncontradoException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 /**
@@ -51,6 +58,11 @@ public class PagosController {
 	 * @param id
 	 * @return
 	 */
+	@Operation(summary = "Busca un pago por su id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Pago encontrado", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
+			@ApiResponse(responseCode = "404", description = "Pago no encontrado", content = @Content) })
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscar(@PathVariable Long id) {
 		Optional<PagoModel> pagoModel = pagosService.buscar(id);
@@ -69,19 +81,34 @@ public class PagosController {
 	 * @param pagoGuardarModel
 	 * @return
 	 */
+	@Operation(summary = "Guarda un pago")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Pago creado", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
+			@ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content) })
 	@PostMapping
-	public PagoModel guardar(@Valid @RequestBody PagoGuardarModel pagoGuardarModel) {
-		return pagosService.guardar(pagoGuardarModel);
+	public ResponseEntity<PagoModel> guardar(@Valid @RequestBody PagoGuardarModel pagoGuardarModel) {
+		PagoModel pagoGuardado = pagosService.guardar(pagoGuardarModel);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(pagoGuardado.getId()).toUri();
+
+		return ResponseEntity.created(location).body(pagoGuardado);
 	}
 
 	/**
-	 * Actualiza un @link{Pago}
+	 * Actualiza un {@link Pago}
 	 * 
 	 * @param id
 	 * @param pagoActualizarModel
 	 * 
 	 * @return
 	 */
+	@Operation(summary = "Actualiza el estatus de un pago")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Estatus del pago actualizado", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PagoModel.class)) }),
+			@ApiResponse(responseCode = "404", description = "Pago no encontrado", content = @Content) })
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> actualizar(@PathVariable Long id,
 			@Valid @RequestBody PagoActualizarModel pagoActualizarModel) {
