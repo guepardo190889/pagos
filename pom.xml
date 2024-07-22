@@ -13,7 +13,7 @@
 	<artifactId>pagos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pagos</name>
-	<description>Prueba técnica relacional para Banco Base</description>
+	<description>Pagos</description>
 	<url />
 	<licenses>
 		<license />
