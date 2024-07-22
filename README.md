@@ -21,7 +21,7 @@ Este proyecto es una aplicación Spring Boot para gestionar pagos, con integraci
 
 ## Configuración
 
-###Script
+### Script
 Puedes descargar o copiar el script [install.sh](https://github.com/guepardo190889/pagos/blob/main/install.sh) y ejecutarlo para que haga todo por tí
 
 ### Clonar el Repositorio
