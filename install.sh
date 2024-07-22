@@ -14,8 +14,8 @@ git clone https://github.com/tu-usuario/pagos.git
 # Cambiar al directorio del repositorio
 cd pagos
 
-# Limpiar y empaquetar el proyecto con Maven
-mvn clean package
+# Ejectuar todas las tareas de construcción con Maven
+mvn clean install test javadoc:javadoc package
 
 # Construir la imagen Docker
 docker build -t pagos-app:latest .
