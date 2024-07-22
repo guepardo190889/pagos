@@ -22,3 +22,6 @@ docker build -t pagos-app:latest .
 
 # Levantar los servicios con Docker Compose
 docker-compose up -d
+
+# Abrir Swagger del proyecto en el navegador
+xdg-open http://localhost:8080/swagger-ui/index.html
