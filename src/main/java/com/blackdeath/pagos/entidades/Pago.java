@@ -3,6 +3,7 @@ package com.blackdeath.pagos.entidades;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -38,18 +39,21 @@ public class Pago {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
+	@Comment("Identificador único del pago")
 	private Long id;
 
 	/**
 	 * Monto de este pago
 	 */
 	@Column(name = "monto", updatable = false, precision = 11, scale = 2, nullable = false)
+	@Comment("Monto del pago")
 	private BigDecimal monto;
 
 	/**
 	 * Concepto de este pago
 	 */
 	@Column(name = "concepto", updatable = false, length = 256, nullable = false)
+	@Comment("Concepto del pago")
 	private String concepto;
 
 	/**
@@ -57,6 +61,7 @@ public class Pago {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cuenta", updatable = false, nullable = false)
+	@Comment("Llave foránea que hace referencia a la Cuenta desde la que se realiza el pago")
 	private Cuenta cuenta;
 
 	/**
@@ -64,6 +69,7 @@ public class Pago {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario", updatable = false, nullable = false)
+	@Comment("LLave foránea que hace referencia al Usuario que realiza el pago")
 	private Usuario usuario;
 
 	/**
@@ -71,6 +77,7 @@ public class Pago {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_destinatario", updatable = false, nullable = false)
+	@Comment("Llave foránea que hace referencia al Destinatario del pago")
 	private Destinatario destinatario;
 
 	/**
@@ -78,6 +85,7 @@ public class Pago {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_estatus", nullable = false)
+	@Comment("Llave foránea que hace referencia al Estatus del pago")
 	private EstatusPago estatus;
 
 	/**
@@ -85,12 +93,14 @@ public class Pago {
 	 */
 	@CreationTimestamp
 	@Column(name = "fecha_creacion", updatable = false)
+	@Comment("Fecha en se creó el pago")
 	private LocalDateTime fechaCreacion;
 
 	/**
 	 * Fecha de aplicación de este pago
 	 */
 	@Column(name = "fecha_aplicacion", columnDefinition = "datetime")
+	@Comment("Fecha en que se aplicó el pago")
 	private LocalDateTime fechaAplicacion;
 
 }

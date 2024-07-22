@@ -1,5 +1,7 @@
 package com.blackdeath.pagos.entidades;
 
+import org.hibernate.annotations.Comment;
+
 import com.blackdeath.pagos.enumeradores.EstatusPagoEnum;
 
 import jakarta.persistence.Column;
@@ -32,18 +34,21 @@ public class EstatusPago {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
+	@Comment("Identificador único del estatus del pago")
 	private Long id;
 
 	/**
 	 * Clave única de este estado de pago
 	 */
 	@Column(name = "clave", length = 16, updatable = false, nullable = false, unique = true)
+	@Comment("Clave del estatus del pago")
 	private String clave;
 
 	/**
 	 * Descripción de este estado de pago
 	 */
 	@Column(name = "descripcion", length = 128, nullable = false)
+	@Comment("Descripción del estatus del pago")
 	private String descripcion;
 
 	/**
