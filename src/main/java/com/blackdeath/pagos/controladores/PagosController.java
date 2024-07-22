@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -39,6 +40,7 @@ import jakarta.validation.constraints.NotNull;
  * @author Seth Karim Luis Martínez
  * @since 2024-07-20
  */
+@Tag(name = "Pagos", description = "API de operacione relacionadas con pagos")
 @RestController
 @RequestMapping("/api/pagos")
 public class PagosController {
